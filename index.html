@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<!-- fonts -->
+	<link rel="stylesheet" href="css/solid.min.css">
+	<link rel="stylesheet" href="css/fontawesome.min.css">
+	
+	<!-- D3 -->
+	<script src="js/d3.v3.min.js"></script>
+
+	<!-- jQuery -->
+	<script src="js/jquery.min.js"></script>
+
+	<!-- Moment -->
+	<script src="js/moment.min.js"></script>
+
+	<!-- Export to PDF PNG -->
+	<!-- <script src="js/canvg.min.js"></script>
+	<script src="js/jspdf.min.js"></script>
+	<script src="js/html2canvas.min.js"></script> -->
+
+	<!-- Bootstrap 3 -->
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<script src="js/bootstrap.min.js"></script>
+
+	<!-- Daterange script for the search box -->
+	<script src="js/daterangepicker.js"></script>
+	<link href="css/daterangepicker.css" type="text/css" rel="stylesheet">
+	
+	<link href="css/style.css" type="text/css" rel="stylesheet">
+	
+</head>
+<body>
+	<div class="chartWrapper">
+		<div id="cont" class="container-fluid">
+
+			<!-- Introduction -->
+			<!-- <div class="row" style="padding: 5px 0px;">
+				<div class="col-sm-4 column">
+					<div class="row" style="padding: 0px 50px;">
+						<div class="col-md-12 column text-center">
+							<h2 class="titles">The 10 most popular baby names per year since 1880</h2>
+							<span class="subheader">USA</span>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-7 column">
+					<div class="row">
+						<div class="col-md-12 column" style="padding-top: 10px;">
+							<p><span style="font-size: 12px;" class="expl">Each year almost 4 million babies are born in the US. 
+							Although thinking of 4 million unique names is pretty difficult, theoretically it is not impossible. Nonetheless, there are always many babies given the same name 
+							(of course there are also quite a few children who are given a name that no other child received that year. Not all fall into the category of Tarzan-Lollipop luckily, many of them I like, such as Nyx).<br>
+							In 2013 more than 18000 boys were named Noah in the US and more than 21000 girls named Sophia, the most popular boy and girl name of that year.</span></p>
+							<p><span style="font-size: 12px; color: #949494;" class="expl">The chart below shows the top 10 names per year and per gender since 1880. 
+							You can search for any of the about 50 and 90 unique boy and girl names, respectively, that have entered the top 10 in the last 135 years 
+							and see their rise and fall. Or click on a name to see their full reign in the top 10.
+							Use the smaller overview to change the starting and ending years in the bigger focus chart or switch between genders with the "Boys | Girls" button.
+							You can also start an automatic loop through random names
+							</span></p>
+						</div>
+					</div>
+					<div class="row" style="margin-top:20px;">
+						<div class="col-md-6 column text-center">
+							<span style="font-size: 11px;">Color gives the approximate starting letter of the name</span>
+							<div class="colorLegend"><svg width="265" height="55"><g class="colorLegendWrapper" transform="translate(30,15)"><defs><lineargradient id="legendGradientBoy" gradientUnits="userSpaceOnUse" x1="0%" y1="0%" x2="100%" y2="0%" spreadMethod="pad"><stop offset="0%" stop-color="#B5C660"></stop><stop offset="1%" stop-color="#B3C762"></stop><stop offset="2%" stop-color="#B0C765"></stop><stop offset="4%" stop-color="#ADC767"></stop><stop offset="5%" stop-color="#AAC769"></stop><stop offset="7%" stop-color="#A7C76A"></stop><stop offset="8%" stop-color="#A3C66B"></stop><stop offset="10%" stop-color="#9FC46B"></stop><stop offset="11%" stop-color="#9AC26A"></stop><stop offset="13%" stop-color="#94BF68"></stop><stop offset="14%" stop-color="#8EBB66"></stop><stop offset="15%" stop-color="#87B662"></stop><stop offset="17%" stop-color="#7FB05E"></stop><stop offset="18%" stop-color="#75AA5A"></stop><stop offset="20%" stop-color="#6BA354"></stop><stop offset="21%" stop-color="#609B4F"></stop><stop offset="23%" stop-color="#549249"></stop><stop offset="24%" stop-color="#478943"></stop><stop offset="26%" stop-color="#39803D"></stop><stop offset="27%" stop-color="#2C7739"></stop><stop offset="28%" stop-color="#206F36"></stop><stop offset="30%" stop-color="#166A35"></stop><stop offset="31%" stop-color="#0F6638"></stop><stop offset="33%" stop-color="#0B663E"></stop><stop offset="34%" stop-color="#0C6A48"></stop><stop offset="36%" stop-color="#127257"></stop><stop offset="37%" stop-color="#1B7D6A"></stop><stop offset="39%" stop-color="#27897F"></stop><stop offset="40%" stop-color="#359795"></stop><stop offset="42%" stop-color="#42A4AB"></stop><stop offset="43%" stop-color="#4EB0C0"></stop><stop offset="44%" stop-color="#58BAD3"></stop><stop offset="46%" stop-color="#5DBFE2"></stop><stop offset="47%" stop-color="#5DC0EC"></stop><stop offset="49%" stop-color="#5ABCF2"></stop><stop offset="50%" stop-color="#52B5F4"></stop><stop offset="52%" stop-color="#49ABF3"></stop><stop offset="53%" stop-color="#3E9FEE"></stop><stop offset="55%" stop-color="#3292E7"></stop><stop offset="56%" stop-color="#2785DE"></stop><stop offset="57%" stop-color="#1E77D3"></stop><stop offset="59%" stop-color="#176AC7"></stop><stop offset="60%" stop-color="#125EBA"></stop><stop offset="62%" stop-color="#0F53AB"></stop><stop offset="63%" stop-color="#0E489C"></stop><stop offset="65%" stop-color="#0D3E8D"></stop><stop offset="66%" stop-color="#0E347D"></stop><stop offset="68%" stop-color="#0F2B6C"></stop><stop offset="69%" stop-color="#11215C"></stop></lineargradient></defs><defs><lineargradient id="legendGradientGirl" gradientUnits="userSpaceOnUse" x1="0%" y1="0%" x2="100%" y2="0%" spreadMethod="pad"><stop offset="0%" stop-color="#FFC600"></stop><stop offset="0%" stop-color="#FEC606"></stop><stop offset="1%" stop-color="#FEC60B"></stop><stop offset="2%" stop-color="#FDC710"></stop><stop offset="3%" stop-color="#FDC716"></stop><stop offset="4%" stop-color="#FCC61B"></stop><stop offset="5%" stop-color="#FCC61F"></stop><stop offset="6%" stop-color="#FCC523"></stop><stop offset="7%" stop-color="#FBC427"></stop><stop offset="8%" stop-color="#FBC22B"></stop><stop offset="9%" stop-color="#FBC02D"></stop><stop offset="10%" stop-color="#FBBD2F"></stop><stop offset="11%" stop-color="#FBBA31"></stop><stop offset="12%" stop-color="#FBB632"></stop><stop offset="13%" stop-color="#FBB132"></stop><stop offset="14%" stop-color="#FCAC31"></stop><stop offset="15%" stop-color="#FCA730"></stop><stop offset="16%" stop-color="#FDA12F"></stop><stop offset="16%" stop-color="#FD9B2D"></stop><stop offset="17%" stop-color="#FE952C"></stop><stop offset="18%" stop-color="#FE8F2A"></stop><stop offset="19%" stop-color="#FF8929"></stop><stop offset="20%" stop-color="#FF8428"></stop><stop offset="21%" stop-color="#FF7E27"></stop><stop offset="22%" stop-color="#FF7927"></stop><stop offset="23%" stop-color="#FF7527"></stop><stop offset="24%" stop-color="#FF7128"></stop><stop offset="25%" stop-color="#FE6E29"></stop><stop offset="26%" stop-color="#FE6A2B"></stop><stop offset="27%" stop-color="#FD682D"></stop><stop offset="28%" stop-color="#FC652F"></stop><stop offset="29%" stop-color="#FB6330"></stop><stop offset="30%" stop-color="#FA6032"></stop><stop offset="31%" stop-color="#F95E33"></stop><stop offset="32%" stop-color="#F85C34"></stop><stop offset="33%" stop-color="#F65A34"></stop><stop offset="33%" stop-color="#F55733"></stop><stop offset="34%" stop-color="#F35432"></stop><stop offset="35%" stop-color="#F15230"></stop><stop offset="36%" stop-color="#F04F2D"></stop><stop offset="37%" stop-color="#EE4B2A"></stop><stop offset="38%" stop-color="#EC4827"></stop><stop offset="39%" stop-color="#EA4524"></stop><stop offset="40%" stop-color="#E84221"></stop><stop offset="41%" stop-color="#E63E1F"></stop><stop offset="42%" stop-color="#E43B1D"></stop><stop offset="43%" stop-color="#E2381C"></stop><stop offset="44%" stop-color="#E0351C"></stop><stop offset="45%" stop-color="#DD321E"></stop><stop offset="46%" stop-color="#DB3020"></stop><stop offset="47%" stop-color="#D92E25"></stop><stop offset="48%" stop-color="#D62C2B"></stop><stop offset="49%" stop-color="#D42A31"></stop><stop offset="50%" stop-color="#D22939"></stop><stop offset="50%" stop-color="#CF2841"></stop><stop offset="51%" stop-color="#CD274A"></stop><stop offset="52%" stop-color="#CB2754"></stop><stop offset="53%" stop-color="#C8275D"></stop><stop offset="54%" stop-color="#C62866"></stop><stop offset="55%" stop-color="#C4296F"></stop><stop offset="56%" stop-color="#C22A77"></stop><stop offset="57%" stop-color="#BF2C7F"></stop><stop offset="58%" stop-color="#BD2E86"></stop><stop offset="59%" stop-color="#BB308C"></stop><stop offset="60%" stop-color="#B93391"></stop><stop offset="61%" stop-color="#B73596"></stop><stop offset="62%" stop-color="#B5389A"></stop><stop offset="63%" stop-color="#B33B9D"></stop><stop offset="64%" stop-color="#B13EA0"></stop><stop offset="65%" stop-color="#AE41A2"></stop><stop offset="66%" stop-color="#AC43A3"></stop><stop offset="66%" stop-color="#A946A4"></stop><stop offset="67%" stop-color="#A648A4"></stop><stop offset="68%" stop-color="#A349A4"></stop><stop offset="69%" stop-color="#9F4AA3"></stop><stop offset="70%" stop-color="#9B4BA2"></stop><stop offset="71%" stop-color="#974BA1"></stop><stop offset="72%" stop-color="#934B9F"></stop><stop offset="73%" stop-color="#8E4A9D"></stop><stop offset="74%" stop-color="#8A499A"></stop><stop offset="75%" stop-color="#854897"></stop><stop offset="76%" stop-color="#804795"></stop><stop offset="77%" stop-color="#7B4692"></stop><stop offset="78%" stop-color="#76448E"></stop><stop offset="79%" stop-color="#71438B"></stop><stop offset="80%" stop-color="#6C4188"></stop></lineargradient></defs><rect class="colorkey" x="0" y="-8" width="205" height="16" fill="url(#legendGradientGirl)" style="opacity: 0.7;"></rect><text x="0" y="20" style="font-size: 11px; text-anchor: middle;">A</text><text x="205" y="20" style="font-size: 11px; text-anchor: middle;">Z</text></g></svg></div>
+						</div>
+						<div class="col-md-6 column text-center">
+							<span style="font-size: 11px;">Line thickness stands for the highest position ever reached by a name</span>
+							<div class="widthLegend"><svg width="265" height="55"><g class="strokeLegendWrapper" transform="translate(30,15)"><rect class="strokeKey" x="0" y="-6" width="16.400000000000002" height="12" fill="#9C9C9C" style="opacity: 0.7; shape-rendering: crispEdges;"></rect><rect class="strokeKey" x="20.5" y="-4" width="16.400000000000002" height="8" fill="#9C9C9C" style="opacity: 0.7; shape-rendering: crispEdges;"></rect><rect class="strokeKey" x="41" y="-4" width="16.400000000000002" height="8" fill="#9C9C9C" style="opacity: 0.7; shape-rendering: crispEdges;"></rect><rect class="strokeKey" x="61.5" y="-3" width="16.400000000000002" height="6" fill="#9C9C9C" style="opacity: 0.7; shape-rendering: crispEdges;"></rect><rect class="strokeKey" x="82" y="-3" width="16.400000000000002" height="6" fill="#9C9C9C" style="opacity: 0.7; shape-rendering: crispEdges;"></rect><rect class="strokeKey" x="102.5" y="-2" width="16.400000000000002" height="4" fill="#9C9C9C" style="opacity: 0.7; shape-rendering: crispEdges;"></rect><rect class="strokeKey" x="123" y="-2" width="16.400000000000002" height="4" fill="#9C9C9C" style="opacity: 0.7; shape-rendering: crispEdges;"></rect><rect class="strokeKey" x="143.5" y="-1" width="16.400000000000002" height="2" fill="#9C9C9C" style="opacity: 0.7; shape-rendering: crispEdges;"></rect><rect class="strokeKey" x="164" y="-1" width="16.400000000000002" height="2" fill="#9C9C9C" style="opacity: 0.7; shape-rendering: crispEdges;"></rect><rect class="strokeKey" x="184.5" y="-1" width="16.400000000000002" height="2" fill="#9C9C9C" style="opacity: 0.7; shape-rendering: crispEdges;"></rect><text class="strokeKeyText" x="8.200000000000001" y="20" style="text-anchor: middle;">1</text><text class="strokeKeyText" x="28.700000000000003" y="20" style="text-anchor: middle;">2</text><text class="strokeKeyText" x="49.2" y="20" style="text-anchor: middle;">3</text><text class="strokeKeyText" x="69.7" y="20" style="text-anchor: middle;">4</text><text class="strokeKeyText" x="90.2" y="20" style="text-anchor: middle;">5</text><text class="strokeKeyText" x="110.7" y="20" style="text-anchor: middle;">6</text><text class="strokeKeyText" x="131.2" y="20" style="text-anchor: middle;">7</text><text class="strokeKeyText" x="151.7" y="20" style="text-anchor: middle;">8</text><text class="strokeKeyText" x="172.2" y="20" style="text-anchor: middle;">9</text><text class="strokeKeyText" x="192.7" y="20" style="text-anchor: middle;">10</text></g></svg></div>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+			
+			<hr> -->
+
+			<div class="row text-center">
+					<div class="col-xs-12 col-sm-12 column text-center">
+							<span class="genderTitle">Producción por Pozo Contable</span>
+						</div>
+			</div>
+
+			<hr>
+			
+			<!-- Toolbar -->
+			<div class="row">
+
+				<div class="col-xs-12 col-sm-5 column">
+						<span style="font-size: 11px; padding-left: 38px;">Al hacer click sobre el color se filtra la variable seleccionada</span>
+						<div class="colorLegend"></div>	
+				</div>
+
+				<div class="col-xs-12 col-sm-7 column text-right">
+					<div style="display: inline-block; margin-right: 10px;">
+							<form class="form-inline" role="form">
+									<div class="form-group">	
+										<label for="daterange">Fechas: </label>		
+										<input type="text" style="width: 200px;" class="form-control" name="daterange" value="01/01/2018 - 15/01/2018" />
+									</div>
+								</form>	
+					</div>
+						<div class="btn-group" role="group" style="margin-right: 10px;">
+								<button id="ytd" class="btn btn-default">YTD</i></button>
+								<button id="oneYear" class="btn btn-default">1Y</i></button>
+								<button id="threeMonths" class="btn btn-default">3M</i></button>
+						</div>
+							<div class="btn-group" role="group">
+									<!-- <button id="pdf" class="btn btn-default"><i class="fas fa-save"></i></button> -->
+									<button class="btn btn-default" onclick="window.print()"><i class="fas fa-print"></i></button>
+							</div>
+				</div>
+			</div>	
+			<!-- Focus chart -->
+			<div class="row">
+				<div class="col-md-12 column text-center">
+					<div id="canvasFocus" class="chart focus"></div>
+					<!-- <canvas id="canvasId"></canvas> -->
+				</div>
+			</div>
+			
+			<!-- Context chart -->
+			<div class="row">
+				<div class="col-md-12 column text-center">
+					<div class="chart context"></div>
+				</div>
+			</div>
+			
+			<hr>
+			
+			<!-- Interesting insights -->
+			<!-- <div class="row" style="padding-top: 0px;">
+				<div class="col-sm-11 column col-sm-offset-1">
+					<h3>Some interesting insights</h3>
+				</div>
+				<div class="col-sm-5 column col-sm-offset-1">
+					<p class="insights">
+					The charts for both girls and boys from the start to the end show different trends throughout the 135 years since 1880. 
+					Girl names have seen more changes than boys, with 86 unique girl names appearing since 1880 versus only 49 unique boy names. 
+					Girl names have also seen a rather even spread of rise and fall, with 45% of the unique girl names already occurring <span id="years_1947_girls" class="clickable">before 1947</span> 
+					(halfway in between 1880 en 2014). For boy names this number is 39%.<br>
+					Boy names, on the other hand, have seen a very mild period of change <span id="years_1965_boys" class="clickable">until about 1965</span>, 
+					with names only climbing or falling by one position over multiple years, when suddenly <span id="Christopher" class="clickable">Christopher</span> 
+					and then <span id="Jason" class="clickable">Jason</span> rose to 2nd position relatively quickly. 
+					The <span id="years_2005_boys" class="clickable">last 10 years</span> have seen a particular "violent" period of boy names rising and falling very quickly.
+					</p>
+					<p class="insights">
+					The most popular girl name in the past 135 years was <span id="Mary" class="clickable">Mary</span>. Reigning on first place for 80 years 
+					(with a small drop to 2nd place between <span id="years_1947_1952_girls" class="clickable">1947 and 1952</span> by <span id="Linda" class="clickable">Linda</span>),
+					and probably much longer before our first data point in 1880, before finally falling out of the top 10 in 1972.<br>
+					For boys it is not so clear. Several names have been extremely popular for long periods of times. Both <span id="John" class="clickable">John</span> and 
+					<span id="Michael" class="clickable">Michael</span> have been on the first position for 44 years, but John was in the top 10 for more than 100 years whereas Michael only about 70 years. 
+					<span id="James" class="clickable">James</span> and <span id="Robert" class="clickable">Robert</span> were also present in the high numbers of top 10 for about 110 years,
+					but never reaching that first position for an extended period. 					
+					</p>
+					<p class="insights">
+					The average boy name is present in the top 10 for <span id="Daniel" class="clickable">28 years</span>. For girl names this is only <span id="Ethel" class="clickable">16 years</span>.
+					</p>
+				</div>
+				<div class="col-sm-5 column">
+					<p class="insights">
+					Almost all names are only present for one rise and fall (or "curve") since 1880, but four names: <span id="Elizabeth" class="clickable">Elizabeth</span>,
+					<span id="Emma" class="clickable">Emma</span>, <span id="William" class="clickable">William</span> and <span id="Joseph" class="clickable">Joseph</span>					
+					fall of for several decades before rejoining the top 10 after the 1980's. 
+					For <span id="Emma" class="clickable">Emma</span> there are more than 100 years between the two occurrences in the 10.
+					</p>
+					<p class="insights">
+					When comparing the growth and fall of names of the US to <a href="https://nbremer.github.io/babynamesnl/" target="_blank" class="clickable">the Dutch version</a>, there are several notable differences and similarities. Until the 1960's the most popular girl name in the US was the same
+					as in the Netherlands, <span id="Mary2" class="clickable">Mary</span> (which translates to Maria in Dutch). Mary fell off the chart at the start of the 70's while Maria held out into the 90's in the Netherlands.
+					Exactly the same is true for the most popular boy name <span id="John2" class="clickable">John</span> (which translates to Johannes in Dutch). 
+					Extremely popular in the first half of the 20th century but falling off much faster in the US than the Netherlands. These two are not the only names that appear in both the US and Dutch version. 
+					Even more interesting, both Mary and Maria were temporarily kicked of their 1st place by the same name, <span id="Linda2" class="clickable">Linda</span>. However, in the US this occurred during the 1940's whereas in the Netherlands it happened much later, in 1984.<br>
+					One big difference is that in the Netherlands there was hardly any change in the top 10 until about 1965 whereas in the past 20 years the top 10 has become a hairball of lines with many new names entering and leaving within a few years. 
+					In the US on the other hand there is not really a notable difference in the number of names that rise and fall throughout the entire 135 years 
+					(although in the last 5 years the boy names are beginning to see more changes than before).
+					</p>
+				</div>
+			</div> -->
+			
+			<!-- <hr> -->
+			
+			<!-- Attribution -->
+			<div class="row">
+				<div class="col-md-12 column text-center">
+					<span class="attribution">Creado por XXXX XXXX | <a href="https://www.XXX.com/">www.XXXX.com</a>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+
+	<script src="js/petrograph.js"></script>
+</body>
+</html>
