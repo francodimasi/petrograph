@@ -1,4 +1,4 @@
-d3.xml("../data.xml", function(error, x) {
+d3.xml("../354306_diadema.xml", function(error, x) {
 	if (error) throw error;
 
 vars = [];
@@ -56,7 +56,7 @@ var parseDate = locale.timeFormat("%d/%m/%Y");
 	Intervenciones = [].map.call(x.querySelectorAll("INTERVENCION"), function(INTERVENCION) {
 		return {
 			year: (INTERVENCION.querySelector("Fecha") !== null) ? parseDate.parse(INTERVENCION.querySelector("Fecha").textContent) : null,
-			position: 1,
+			position: 50,
 			tipo: INTERVENCION.querySelector("Tipo").textContent,
 			equipo: INTERVENCION.querySelector("Equipo").textContent,
 			motivo: INTERVENCION.querySelector("Motivo").textContent,
@@ -69,7 +69,7 @@ var parseDate = locale.timeFormat("%d/%m/%Y");
 	vars.push({ name: "Neta", values: Neta, active: true });
 	vars.push({ name: "Acumulada", values: Acumulada, active: true });
 	vars.push({ name: "Agua", values: Agua, active: true });
-	vars.push({ name: "Intervenciones", values: Intervenciones, active: true });
+	vars.push({ name: "Intervenciones", values: [], active: true });
 
 
 allVarNames = [];
@@ -94,13 +94,14 @@ var margin = {top: 20, right: 50, bottom: 30, left: 70},
 	marginAll = {top: 20, right: 50, bottom: 30, left: 70}
     width = ($(".chart.focus").width()-10) - margin.left - margin.right,
     heightBrush = 500 - margin.top - margin.bottom,
-	heightAll = 100 - marginAll.top - marginAll.bottom;
+	heightAll = 100 - marginAll.top - marginAll.bottom,
+	heightInter = 30;
 	
 //Stroke width per max position
 // var strokeWidth = [12,8,8,6,6,4,4,2,2,2];
 
 var colorVars = d3.scale.ordinal()
-		.range(["#000000", "#FF0000", "#FFA500", "#6CC4EE", "0000FF"])
+		.range(["#000000", "#FF0000", "#FFA500", "#6CC4EE", "#0000FF"])
 		.domain(allVarNames);
 
 
@@ -146,7 +147,7 @@ var startYear = d3.min(d3.values(tempMinDate)),
 
 
 ////////////////////////////////////////////////////////////// 
-///////////////////// Girls and Vars ///////////////////////// 
+//////////////////////// Vars //////////////////////////////// 
 ////////////////////////////////////////////////////////////// 
 
 //Variables needed for the looping
@@ -237,8 +238,9 @@ var xAll = d3.time.scale().domain([startYear, endYear]).range([0, width]),
 	yAllAgua = d3.scale.linear().domain([0,100]).range([heightAll, 0]),
 	yAllAcumulada = d3.scale.linear().domain([0,5]).range([heightAll, 0]),
 	yBrush = d3.scale.linear().domain([0,maxPosition]).range([heightBrush, 0]),
-	yBrushAgua = d3.scale.linear().domain([0,100]).range([heightBrush, 0]);
-	yBrushAcumulada = d3.scale.linear().domain([0,5]).range([heightBrush, 0]);
+	yBrushAgua = d3.scale.linear().domain([0,100]).range([heightBrush, 0]),
+	yBrushAcumulada = d3.scale.linear().domain([0,5]).range([heightBrush, 0]),
+	yInter = d3.scale.linear().domain([0,100]).range([heightInter, 0]);
 
 var xAxisAll = d3.svg.axis().scale(xAll).orient("bottom").tickSize(0),
 	xAxisBrush = d3.svg.axis().scale(xBrush).orient("bottom").tickSize(0),
@@ -274,6 +276,12 @@ var lineBrush = d3.svg.line()
 	// .interpolate("monotone") //Slight rounding without too much deviation
     .x(function(d) { return xBrush(d.year); })
 	.y(function(d) { return yBrush(d.position); });
+
+
+// Define the div for the tooltip
+var div = d3.select("body").append("div")	
+    .attr("class", "tooltip")				
+    .style("opacity", 0);
 	
 ////////////////////////////////////////////////////////////// 
 //////////////////////// Context ///////////////////////////// 
@@ -379,6 +387,26 @@ focus.append("g")
   .attr("transform", "translate(-70,0)")
   .call(yAxisAcumulada);
 
+
+////////////////////////////////////////////////////////////// 
+////////////////////////// Inter ///////////////////////////// 
+////////////////////////////////////////////////////////////// 
+
+//Create inter SVG
+var inter = d3.select(".chart.inter").append("svg")
+    .attr("width", width)
+	.attr("height", heightInter)
+	.attr("transform", "translate( 10,0)")
+  .append("g")
+	.attr("class", "interWrapper");
+	
+//Append x axis to inter chart
+inter.append("g")
+  .attr("class", "x axis inter")
+  .call(xAxisBrush)
+.selectAll(".tick text")
+  .attr("y", 10);
+
 ////////////////////////////////////////////////////////////// 
 //////////////////////// Tooltip ///////////////////////////// 
 ////////////////////////////////////////////////////////////// 
@@ -397,24 +425,6 @@ popUpName.append("text")
 	.attr("class", "titles")
 	.attr("y", -15);
 	
-
-//////////////////////////////////////////////////////////////
-//////////////////////// Intervencion ////////////////////////
-//////////////////////////////////////////////////////////////
-
-var popUpIntervencion = focus.append("g")
-    .attr("transform", "translate(-100,-100)")
-    .attr("class", "popUpIntervencion")
-	.style("pointer-events", "none");
-
-popUpIntervencion.append("circle")
-	.attr("class", "tooltipCircle")
-    .attr("r", 3.5);
-
-popUpIntervencion.append("text")
-	.style("font-size", 12)
-	.attr("class", "titles")
-    .attr("y", -15);
 
 ////////////////////////////////////////////////////////////// 
 //////////////////////// Voronoi ///////////////////////////// 
@@ -457,15 +467,6 @@ function mouseover(d) {
 	
 	
 	switch (d.name) {
-		case "Intervenciones":
-			//Move the tooltip to the front
-			d3.select(".popUpName").moveToFront();
-			//Change position, size of circle and text of tooltip
-			popUpIntervencion.attr("transform", "translate(" + xBrush(d.year) + "," + yBrush(d.position) + ")");
-			var circleSize = parseInt(d3.selectAll(".focus."+d.name).selectAll(".line").style("stroke-width"));
-			popUpIntervencion.select(".tooltipCircle").style("fill", color(d.name)).attr("r", circleSize);
-			popUpIntervencion.select("text").text(d.year + d.tipo + d.equipo + d.motivo + d.observaciones);
-			break;
 		case "Acumulada":
 			//Move the tooltip to the front
 			d3.select(".popUpName").moveToFront();
@@ -495,7 +496,6 @@ function mouseover(d) {
 			break;
 	}
 
-
 }//mouseover
 
 function mouseout(d) {
@@ -506,7 +506,6 @@ function mouseout(d) {
 		.style("stroke", function(c) { return "url(#line-gradient-vars-" + c.name + ")"; });
     
 	popUpName.attr("transform", "translate(-100,-100)");
-	popUpIntervencion.attr("transform", "translate(-100,-100)");
 }//mouseout
 
 ////////////////////////////////////////////////////////////// 
@@ -563,8 +562,15 @@ function brushmove() {
 				return lineBrush(d.values); 
 		}
 	});
+
+	//Adjust the paths
+	inter.selectAll(".dot").attr("x", function(d) { 
+		return xBrush(d.year);
+	});
+
 	//Update the x axis and grid
 	focus.select(".x.axis").call(xAxisBrush);
+	inter.select(".x.axis").call(xAxisBrush);
 	//focus.select(".grid").call(xAxisGrid);
   
 	//Reset the grey regions of the context chart
@@ -665,20 +671,20 @@ d3.select("#ytd").on("click", function(e) { gBrush.call(brush.extent([startYear,
 d3.select("#oneYear").on("click", function(e) { gBrush.call(brush.extent([new Date(endYear - (1000 * 60 * 60 * 24 * 365)), endYear])).call(brush.event); });
 d3.select("#threeMonths").on("click", function(e) { gBrush.call(brush.extent([new Date(endYear - (1000 * 60 * 60 * 24 * 90)), endYear])).call(brush.event); });
 d3.select("#threeMonths").on("click", function(e) { gBrush.call(brush.extent([new Date(endYear - (1000 * 60 * 60 * 24 * 90)), endYear])).call(brush.event); });
-d3.select("#pdf").on("click", function(e) { 
-	canvas = document.getElementById('canvasId');
-	svgHtml = document.getElementById('canvasFocus').innerHTML.trim();
-	canvg(canvas,svgHtml);
+// d3.select("#pdf").on("click", function(e) { 
+// 	canvas = document.getElementById('canvasId');
+// 	svgHtml = document.getElementById('canvasFocus').innerHTML.trim();
+// 	canvg(canvas,svgHtml);
 
-	html2canvas(canvas, {
-		onrendered: function(canvas) {         
-			var imgData = canvas.toDataURL('image/png')  
-			var doc = new jsPDF()
-			doc.addImage(imgData, 'PNG', 10, 10)
-			doc.save('pie.pdf')
-		}
-	})	
-	});
+// 	html2canvas(canvas, {
+// 		onrendered: function(canvas) {         
+// 			var imgData = canvas.toDataURL('image/png')  
+// 			var doc = new jsPDF()
+// 			doc.addImage(imgData, 'PNG', 10, 10)
+// 			doc.save('pie.pdf')
+// 		}
+// 	})	
+// 	});
 
 ////////////////////////////////////////////////////////////// 
 /////////////////////////// Search /////////////////////////// 
@@ -915,6 +921,57 @@ function redraw() {
 	
 	//EXIT
 	focusWrapper.exit()
+		.transition().duration(750)
+		.style("opacity", 0)
+		.remove(); 
+
+
+	////////////////////////////////////////////////////////////// 
+	////////////////////////// Inter ///////////////////////////// 
+	////////////////////////////////////////////////////////////// 	
+	//Add a g element per name
+	var interWrapper = inter.selectAll(".inter")
+		.data(Intervenciones);
+	 
+	//UPDATE
+	interWrapper.selectAll(".dot")
+		.attr("width", 10)
+		.attr("height", 10)
+		.attr("x", function(d) { return xBrush(d.year); })
+		.attr("y", function(d) { return yInter(d.position); })
+	 
+	//ENTER
+	//Add the lines of the vars to focus chart 
+	interWrapper
+		.enter()
+		.append("rect")
+			.attr("class", "dot")
+			.attr("width", 10)
+			.attr("height", 10)
+			.attr("x", function(d) { return xBrush(d.year); })
+			.attr("y", function(d) { return yInter(d.position); })
+			.style("fill", "#0000FF")
+			.on("mouseover", function(d) {		
+				div.transition()		
+					.duration(200)		
+					.style("opacity", .9);		
+				div	.html(parseDate(d.year) + "<br/><strong>Tipo:</strong> " + d.tipo + "<br/><strong>Equipo:</strong> " + d.equipo + "<br/><strong>Motivo:</strong> " + d.motivo + "<br/><strong>Obs:</strong> " + d.observaciones)	
+					.style("left", (d3.event.pageX - 130) + "px")		
+					.style("top", (d3.event.pageY - 90) + "px");	
+				})					
+			.on("mouseout", function(d) {		
+				div.transition()		
+					.duration(500)		
+					.style("opacity", 0);	
+			});;
+
+	// Small delay so the brush can run first		
+	interWrapper.selectAll(".dot")	
+			.transition().duration(750).delay(500)
+			.style("opacity", 0.7);
+	
+	// EXIT
+	interWrapper.exit()
 		.transition().duration(750)
 		.style("opacity", 0)
 		.remove(); 

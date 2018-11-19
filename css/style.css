@@ -56,8 +56,8 @@ body {
   shape-rendering: crispEdges;
 }
 
-.x.axis path, .y.axis path {
-  /* display: none; */
+.x.axis.inter{
+  display: none;
 }
 
 .x.axis text, .y.axis text {
@@ -126,6 +126,19 @@ body {
 .popUpName text {
   text-anchor: middle;
   text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+}
+
+div.tooltip {	
+  position: absolute;			
+  text-align: left;			
+  width: 260px;					
+  height: 80px;					
+  padding: 2px;				
+  font: 12px sans-serif;		
+  background: #FFFFFF;	
+  border: 1px solid #ccc;		
+  border-radius: 4px;			
+  pointer-events: none;			
 }
 
 .voronoi path {
