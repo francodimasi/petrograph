@@ -1,4 +1,4 @@
-d3.xml("../354306_diadema.xml", function(error, x) {
+d3.xml("../data.xml", function(error, x) {
 	if (error) throw error;
 
 vars = [];
@@ -236,17 +236,19 @@ var xAll = d3.time.scale().domain([startYear, endYear]).range([0, width]),
 	xBrush = d3.time.scale().domain([startYear, endYear]).range([0, width]),
 	yAll = d3.scale.linear().domain([0,maxPosition]).range([heightAll, 0]),
 	yAllAgua = d3.scale.linear().domain([0,100]).range([heightAll, 0]),
-	yAllAcumulada = d3.scale.linear().domain([0,5]).range([heightAll, 0]),
+	// yAllAcumulada = d3.scale.linear().domain([0,5]).range([heightAll, 0]),
+	yAllAcumulada = d3.scale.log().domain([0.001,1000]).range([heightAll, 0]),
 	yBrush = d3.scale.linear().domain([0,maxPosition]).range([heightBrush, 0]),
 	yBrushAgua = d3.scale.linear().domain([0,100]).range([heightBrush, 0]),
-	yBrushAcumulada = d3.scale.linear().domain([0,5]).range([heightBrush, 0]),
+	// yBrushAcumulada = d3.scale.linear().domain([0,5]).range([heightBrush, 0]),
+	yBrushAcumulada = d3.scale.log().domain([0.001,1000]).range([heightBrush, 0]),
 	yInter = d3.scale.linear().domain([0,100]).range([heightInter, 0]);
 
 var xAxisAll = d3.svg.axis().scale(xAll).orient("bottom").tickSize(0),
 	xAxisBrush = d3.svg.axis().scale(xBrush).orient("bottom").tickSize(0),
 	yAxisBrush = d3.svg.axis().scale(yBrush).orient("left").innerTickSize(-width).outerTickSize(5),
 	yAxisAgua = d3.svg.axis().scale(yBrushAgua).orient("right").outerTickSize(5);
-	yAxisAcumulada = d3.svg.axis().scale(yBrushAcumulada).orient("right").outerTickSize(5);
+	yAxisAcumulada = d3.svg.axis().scale(yBrushAcumulada).orient("right").ticks(1, ",.1").outerTickSize(5);
 
 ////////////////////////////////////////////////////////////// 
 /////////////// Other initializations //////////////////////// 
